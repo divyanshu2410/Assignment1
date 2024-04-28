@@ -9,6 +9,7 @@ const multer = require("multer");
 
 dotenv.config();
 const app = express();
+const uploadRoutes = multer({ storage: storage });
 
 app.use(express.json());
 app.use(cors());
@@ -26,7 +27,7 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage: storage });
+
 
 mongoose
   .connect("mongodb+srv://divyanshukumar736:hvlvLJsxoNbqZVIV@cluster0.ln2mfmi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")

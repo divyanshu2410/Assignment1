@@ -3,7 +3,7 @@ const router = express.Router();
 const Upload = require('../models/upload');
 
 
-router.post('/upload', upload.fields([{ name: 'image', maxCount: 1 }, { name: 'video', maxCount: 1 }]), async (req, res) => {
+router.post('/upload', async (req, res) => {
     try {
         const { name, address } = req.body;
         const image = req.files['image'][0].filename;
