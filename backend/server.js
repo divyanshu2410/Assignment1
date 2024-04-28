@@ -17,7 +17,7 @@ mongoose
     "mongodb+srv://divyanshukumar736:hvlvLJsxoNbqZVIV@cluster0.ln2mfmi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
   )
   .then(() => {
-    app.listen(5000);
+    // app.listen(5000);
     // console.log(`Server is running on port ${PORT}`);
     // });
     console.log("Connected to MongoDB");
