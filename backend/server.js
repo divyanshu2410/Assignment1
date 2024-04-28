@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const onboardingRoutes = require("./routes/onboardingRoutes");
 const cors = require("cors");
 
 dotenv.config();
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use(cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/onboarding", onboardingRoutes);
 
 mongoose
   .connect(

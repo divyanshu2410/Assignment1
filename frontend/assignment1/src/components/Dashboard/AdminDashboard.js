@@ -11,8 +11,11 @@ const AdminDashboard = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("https://assignment1-tp12.onrender.com/api/admin/users");
+      const res = await axios.get(
+        "https://assignment1-tp12.onrender.com/api/admin/users"
+      );
       setUsers(res.data);
+      console.log(res.data);
     } catch (error) {
       console.error("Error fetching customers:", error);
     }
@@ -20,8 +23,10 @@ const AdminDashboard = () => {
 
   const handleDeleteCustomer = async (_id) => {
     try {
-      await axios.delete(`https://assignment1-tp12.onrender.com/api/admin/users/_id`);
-      fetchUsers(); 
+      await axios.delete(
+        `https://assignment1-tp12.onrender.com/api/admin/users/${_id}`
+      );
+      fetchUsers();
     } catch (error) {
       console.error("Error deleting customer:", error);
     }
@@ -44,7 +49,9 @@ const AdminDashboard = () => {
             <li key={users._id}>
               <span>{users.username}</span>
               <span>{users.email}</span>
-              <button onClick={() => handleDeleteCustomer(users._id)}>Delete</button>
+              <button onClick={() => handleDeleteCustomer(users._id)}>
+                Delete
+              </button>
             </li>
           ))}
         </ul>

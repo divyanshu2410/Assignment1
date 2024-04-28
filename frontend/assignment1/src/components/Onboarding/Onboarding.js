@@ -1,56 +1,48 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import "./Onboarding.css";
 
 const Onboarding = () => {
-  const history = useNavigate();
-
   const [formData, setFormData] = useState({
     fullName: "",
     address: "",
-    imageUrl: "",
-    videoUrl: "",
+    image: null,
+    video: null,
   });
+
+  const videoRef = useRef(null);
+  const canvasRef = useRef(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleImageUpload = async (e) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("image", file);
-    try {
-      const res = await axios.post("/api/upload/image", formData);
-      const imageUrl = res.data.imageUrl;
-      setFormData({ ...formData, imageUrl });
-    } catch (error) {
-      console.error("Error uploading image:", error);
-    }
+  const handleImageCapture = () => {
+    const canvas = canvasRef.current;
+    const context = canvas.getContext("2d");
+    context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
+    const image = canvas.toDataURL("image/jpeg");
+    setFormData({ ...formData, image });
   };
 
-  const handleVideoUpload = async (e) => {
-    const file = e.target.files[0];
-    const formData = new FormData();
-    formData.append("video", file);
-    try {
-      const res = await axios.post("/api/upload/video", formData);
-      const videoUrl = res.data.videoUrl;
-      setFormData({ ...formData, videoUrl });
-    } catch (error) {
-      console.error("Error uploading video:", error);
-    }
+  const handleVideoCapture = () => {
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then((stream) => {
+        videoRef.current.srcObject = stream;
+      })
+      .catch((error) => {
+        console.error("Error accessing camera:", error);
+      });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/api/onboarding", formData);
-      history.push("/dashboard");
+      const res = await axios.post("/api/onboarding", formData);
+      console.log("Onboarding successful:", res.data);
     } catch (error) {
       console.error("Error:", error);
-      // Handle error (e.g., display error message to the user)
     }
   };
 
@@ -76,20 +68,20 @@ const Onboarding = () => {
           className="onboarding-input"
           required
         />
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageUpload}
-          className="onboarding-input"
-          required
-        />
-        <input
-          type="file"
-          accept="video/*"
-          onChange={handleVideoUpload}
-          className="onboarding-input"
-          required
-        />
+        <div className="capture-container">
+          <div className="capture-preview">
+            <video ref={videoRef} autoPlay muted />
+            <canvas ref={canvasRef} style={{ display: "none" }} />
+          </div>
+          <div className="capture-buttons">
+            <button type="button" onClick={handleVideoCapture}>
+              Start Video Capture
+            </button>
+            <button type="button" onClick={handleImageCapture}>
+              Capture Image
+            </button>
+          </div>
+        </div>
         <button type="submit" className="onboarding-button">
           Complete Onboarding
         </button>

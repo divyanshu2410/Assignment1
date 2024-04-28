@@ -1,42 +1,94 @@
 .onboarding-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-  }
-  
-  .onboarding-heading {
-    margin-bottom: 20px;
-    font-size: 24px;
-    text-align: center;
-  }
-  
-  .onboarding-form {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .onboarding-input {
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-  }
-  
-  .onboarding-button {
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    font-size: 16px;
-    cursor: pointer;
-  }
-  
-  .onboarding-button:hover {
-    background-color: #0056b3;
-  }
-  
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.onboarding-heading {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #333;
+  text-align: center;
+}
+
+.onboarding-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.onboarding-input {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.capture-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.capture-preview {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  margin-bottom: 20px;
+}
+
+video {
+  width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.capture-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.capture-buttons button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.capture-buttons button:hover {
+  background-color: #0056b3;
+}
+
+.onboarding-button {
+  padding: 10px 20px;
+  background-color: #28a745;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.onboarding-button:hover {
+  background-color: #218838;
+}
