@@ -1,36 +1,37 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const authRoutes = require("./routes/authRoutes");
-const adminRoutes = require("./routes/adminRoutes");
-const uploadRoutes = require("./routes/uploadRoutes");
 const cors = require("cors");
 const multer = require("multer");
 
+const authRoutes = require("./routes/authRoutes");
+const adminRoutes = require("./routes/adminRoutes");
+const uploadRoutes = require("./routes/uploadRoutes");
+
 dotenv.config();
+
 const app = express();
-const uploadRoutes = multer({ storage: storage });
 
 app.use(express.json());
 app.use(cors());
 
-app.use("/api/auth", authRoutes);
-app.use("/api/admin", adminRoutes);
-app.use("/api/upload", uploadRoutes);
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-      cb(null, 'uploads/');
+    cb(null, "uploads/");
   },
   filename: function (req, file, cb) {
-      cb(null, Date.now() + '-' + file.originalname);
-  }
+    cb(null, Date.now() + "-" + file.originalname);
+  },
 });
 
+const upload = multer({ storage: storage });
 
+app.use("/api/auth", authRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/upload", uploadRoutes(upload));
 
 mongoose
-  .connect("mongodb+srv://divyanshukumar736:hvlvLJsxoNbqZVIV@cluster0.ln2mfmi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
+  .connect()
   .then(() => {
     app.listen(6000);
     console.log("Connected to MongoDB");
