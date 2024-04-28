@@ -10,37 +10,44 @@ const Onboarding = () => {
     video: null,
   });
 
-  const videoRef = useRef(null);
-  const canvasRef = useRef(null);
+  const [imageCaptured, setImageCaptured] = useState(false);
+
+  const fileInputRef = useRef(null);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleImageCapture = () => {
-    const canvas = canvasRef.current;
-    const context = canvas.getContext("2d");
-    context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-    const image = canvas.toDataURL("image/jpeg");
-    setFormData({ ...formData, image });
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, image: reader.result });
+        setImageCaptured(true);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
-  const handleVideoCapture = () => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true })
-      .then((stream) => {
-        videoRef.current.srcObject = stream;
-      })
-      .catch((error) => {
-        console.error("Error accessing camera:", error);
-      });
+  const handleVideoUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, video: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/api/onboarding", formData);
+      const res = await axios.post("https://assignment1-tp12.onrender.com/api/onboarding", formData);
       console.log("Onboarding successful:", res.data);
+      // Redirect to user dashboard upon successful onboarding
+      // history.push("/userdashboard");
     } catch (error) {
       console.error("Error:", error);
     }
@@ -48,7 +55,7 @@ const Onboarding = () => {
 
   return (
     <div className="onboarding-container">
-      <h2 className="onboarding-heading">Onboarding</h2>
+      <h2 className="onboarding-heading">Form</h2>
       <form className="onboarding-form" onSubmit={handleSubmit}>
         <input
           type="text"
@@ -69,22 +76,24 @@ const Onboarding = () => {
           required
         />
         <div className="capture-container">
-          <div className="capture-preview">
-            <video ref={videoRef} autoPlay muted />
-            <canvas ref={canvasRef} style={{ display: "none" }} />
-          </div>
           <div className="capture-buttons">
-            <button type="button" onClick={handleVideoCapture}>
-              Start Video Capture
-            </button>
-            <button type="button" onClick={handleImageCapture}>
-              Capture Image
-            </button>
+            <label>
+              Upload Image:
+              <input type="file" accept="image/*" onChange={handleImageUpload} />
+            </label>
           </div>
+          {imageCaptured && (
+            <div className="capture-buttons">
+              <label>
+                Upload Video:
+                <input type="file" accept="video/*" onChange={handleVideoUpload} />
+              </label>
+            </div>
+          )}
+          <button type="submit" className="onboarding-button" disabled={!imageCaptured}>
+            Complete Onboarding
+          </button>
         </div>
-        <button type="submit" className="onboarding-button">
-          Complete Onboarding
-        </button>
       </form>
     </div>
   );

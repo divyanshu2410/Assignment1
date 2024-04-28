@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Onboarding = require("../models/Onboarding");
 
-router.post("/", async (req, res) => {
+router.post("/upload", async (req, res) => {
   try {
     const { fullName, address } = req.body;
     const image = req.files.image;
