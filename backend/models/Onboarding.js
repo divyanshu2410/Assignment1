@@ -1,24 +1,10 @@
 const mongoose = require("mongoose");
 
 const onboardingSchema = new mongoose.Schema({
-  fullName: {
-    type: String,
-    required: true,
-  },
-  address: {
-    type: String,
-    required: true,
-  },
-  image: {
-    data: Buffer,
-    contentType: String,
-  },
-  video: {
-    data: Buffer,
-    contentType: String,
-  },
+  fullName: { type: String, required: true },
+  address: { type: String, required: true },
+  image: { type: String, required: true },
+  video: { type: String, required: true },
 });
 
-const Onboarding = mongoose.model("Onboarding", onboardingSchema);
-
-module.exports = Onboarding;
+module.exports = mongoose.model("Onboarding", onboardingSchema);
