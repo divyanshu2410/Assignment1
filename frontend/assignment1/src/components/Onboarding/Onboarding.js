@@ -1,5 +1,6 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import "./Onboarding.css";
 
 const Onboarding = () => {
@@ -11,8 +12,7 @@ const Onboarding = () => {
   });
 
   const [imageCaptured, setImageCaptured] = useState(false);
-
-  const fileInputRef = useRef(null);
+  const history = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -44,10 +44,10 @@ const Onboarding = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://assignment1-tp12.onrender.com/api/onboarding", formData);
+      const res = await axios.post("https://assignment1-tp12.onrender.com/api/onboarding/upload", formData);
       console.log("Onboarding successful:", res.data);
       // Redirect to user dashboard upon successful onboarding
-      // history.push("/userdashboard");
+      history.push("/userDashboard");
     } catch (error) {
       console.error("Error:", error);
     }

@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const cors = require("cors");
 const Onboarding = require("../models/Onboarding");
+
+router.use(cors());
 
 router.post("/upload", async (req, res) => {
   try {
