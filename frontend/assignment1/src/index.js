@@ -7,6 +7,7 @@ import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import OnboardingForm from "./components/Onboarding/Onboarding";
 import UserDashboard from "./components/Dashboard/UserDashboard";
+import AdminDashboard from "./components/Dashboard/AdminDashboard";
 
 const router = createBrowserRouter([
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
   {
     path: "/userDashboard",
     element: <UserDashboard />
+  },
+  {
+    path: "/adminDashboard",
+    element: <AdminDashboard />
   }
 ])
 

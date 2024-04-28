@@ -16,24 +16,16 @@ const Register = () => {
   };
 
   const sendRequest = async () => {
-    try {
-      const res = await axios.post(
-        "https://assignment1-tp12.onrender.com/api/auth/register",
-        formData
-      );
-      if (res.data.success) {
-        history("/login");
-      } else {
-        console.error("Registration failed:", res.data.message);
-      }
-    } catch (error) {
-      console.error("Error:", error.message);
-    }
+    const res = await axios
+      .post("https://assignment1-tp12.onrender.com/api/auth/register", formData)
+      .catch((err) => console.log(err));
+    const data = await res.data;
+    return data;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    sendRequest();
+    sendRequest().then(() => history("/login"))
   };
 
   return (

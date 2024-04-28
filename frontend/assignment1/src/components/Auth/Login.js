@@ -1,38 +1,42 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 
 const Login = () => {
+  const history = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  // const history = useHistory();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const sendRequest = async () => {
+    const res = await axios.post("https://assignment1-tp12.onrender.com/api/auth/login", formData)
+    .catch((err) => console.log(err));
+    const data = res.data;
+    console.log(data);
+    return res.data;
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post("https://assignment1-tp12.onrender.com/api/auth/login~", {
-        email: formData.email,
-        password: formData.password,
-      });
-      console.log(res.data);
-      if (res.data.success) {
-        alert("Login successful!");
-        // history.push("/userDashboard");
-      } else {
-        alert("Login failed. Please check your credentials.");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred. Please try again.");
-    }
+    sendRequest().then(() => history("/onboarding"))
+    // const data = await sendRequest();
+    // if (data.success) {
+    //   // Redirect based on user role
+    //   if (data.role === "Admin") {
+    //     history("/adminDashboard");
+    //   } else {
+    //     history("/onboarding");
+    //   }
+    // } else {
+    //   alert(data.message);
+    // }
   };
 
   return (
