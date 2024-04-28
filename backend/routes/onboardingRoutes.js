@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Onboarding = require("../models/onboarding");
+const Onboarding = require("../models/Onboarding");
 
 router.post("/", async (req, res) => {
   try {
