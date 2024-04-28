@@ -44,10 +44,10 @@ const Onboarding = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://assignment1-tp12.onrender.com/api/onboarding/upload", formData);
-      console.log("Onboarding successful:", res.data);
-      // Redirect to user dashboard upon successful onboarding
-      history.push("/userDashboard");
+      const res = await axios.post("https://assignment1-tp12.onrender.com/api/auth/register", formData);
+      console.log("Registration successful:", res.data);
+      // Redirect to user dashboard upon successful registration
+      history("/userDashboard");
     } catch (error) {
       console.error("Error:", error);
     }

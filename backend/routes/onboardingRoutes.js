@@ -1,38 +1,26 @@
 const express = require("express");
 const router = express.Router();
+const cors = require("cors"); 
 const Onboarding = require("../models/Onboarding");
-const cors = require("cors");
 
-const fileUpload = require("express-fileupload");
-router.use(fileUpload());
 router.use(cors());
 
 router.post("/upload", async (req, res) => {
   try {
     const { fullName, address } = req.body;
-    const { image, video } = req.files;
-
-    if (!image || !video) {
-      return res
-        .status(400)
-        .json({ message: "Image and video files are required" });
-    }
-
-    const imageData = image.data;
-    const imageContentType = image.mimetype;
-    const videoData = video.data;
-    const videoContentType = video.mimetype;
+    const image = req.files.image;
+    const video = req.files.video;
 
     const newOnboarding = new Onboarding({
       fullName,
       address,
       image: {
-        data: imageData,
-        contentType: imageContentType,
+        data: image.data,
+        contentType: image.mimetype
       },
       video: {
-        data: videoData,
-        contentType: videoContentType,
+        data: video.data,
+        contentType: video.mimetype
       },
     });
 
