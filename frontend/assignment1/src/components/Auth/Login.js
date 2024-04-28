@@ -10,33 +10,30 @@ const Login = () => {
     password: "",
   });
 
-
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const sendRequest = async () => {
-    const res = await axios.post("https://assignment1-tp12.onrender.com/api/auth/login", formData)
-    .catch((err) => console.log(err));
-    const data = res.data;
+    const res = await axios
+      .post("https://assignment1-tp12.onrender.com/api/auth/login", formData)
+      .catch((err) => console.log(err));
+    const data = await res.data;
     console.log(data);
-    return res.data;
-  }
+    return data;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    sendRequest().then(() => history("/onboarding"))
-    // const data = await sendRequest();
-    // if (data.success) {
-    //   // Redirect based on user role
-    //   if (data.role === "Admin") {
-    //     history("/adminDashboard");
-    //   } else {
-    //     history("/onboarding");
-    //   }
-    // } else {
-    //   alert(data.message);
-    // }
+    sendRequest().then((data) => {
+      if (data && data.role === "User") {
+        history("/onboarding");
+      } else if (data && data.role === "Admin") {
+        history("/adminDashboard");
+      } else {
+        console.log("Invalid role or data");
+      }
+    });
   };
 
   return (

@@ -21,10 +21,10 @@ router.post("/users", async (req, res) => {
   }
 });
 
-router.delete("/users/:userId", async (req, res) => {
+router.delete("/users/:_id", async (req, res) => {
   try {
-    const { userId } = req.params;
-    await User.findByIdAndDelete(userId);
+    const { _id } = req.params;
+    await User.findByIdAndDelete(_id);
     res.status(204).send();
   } catch (error) {
     res.status(500).json({ error: error.message });
