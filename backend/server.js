@@ -3,12 +3,13 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const cors = require("cors");
 
 dotenv.config();
 const app = express();
-// const PORT = process.env.PORT || 5001;
 
 app.use(express.json());
+app.use(cors());
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 
@@ -18,8 +19,6 @@ mongoose
   )
   .then(() => {
     app.listen(6000);
-    // console.log(`Server is running on port ${PORT}`);
-    // });
     console.log("Connected to MongoDB");
   })
   .catch((error) => {

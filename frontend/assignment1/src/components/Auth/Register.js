@@ -1,44 +1,47 @@
-// Register.js
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import './Register.css';
+import React, { useState } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import "./Register.css";
 
 const Register = () => {
+  const history = useNavigate();
   const [formData, setFormData] = useState({
-    email: '',
-    password: ''
+    username: "",
+    email: "",
+    password: "",
   });
-
-  // const history = useHistory();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const sendRequest = async () => {
     try {
-      const res = await axios.post('http://127.0.0.1:5000/api/auth/register', formData);
-      console.log(res.data);
+      const res = await axios.post(
+        "https://assignment1-tp12.onrender.com/api/auth/register",
+        formData
+      );
       if (res.data.success) {
-        alert('Registration successful! Please login to continue.');
-        // history.push('/login'); // Redirect to login page
+        history("/login");
       } else {
-        alert('Registration failed. Please try again.');
+        console.error("Registration failed:", res.data.message);
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('An error occurred. Please try again.');
+      console.error("Error:", error.message);
     }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    sendRequest();
   };
 
   return (
     <div className="register-container">
       <h2 className="register-heading">Register</h2>
       <form className="register-form" onSubmit={handleSubmit}>
-      <input
-          type="username"
+        <input
+          type="text"
           placeholder="Username"
           name="username"
           value={formData.username}
@@ -62,6 +65,7 @@ const Register = () => {
           value={formData.password}
           onChange={handleChange}
           className="register-input"
+          minLength="6"
           required
         />
         <button type="submit" className="register-button">
