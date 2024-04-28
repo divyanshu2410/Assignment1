@@ -3,22 +3,33 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const authRoutes = require("./routes/authRoutes");
 const adminRoutes = require("./routes/adminRoutes");
-const onboardingRoutes = require("./routes/onboardingRoutes");
+const uploadRoutes = require("./routes/uploadRoutes");
 const cors = require("cors");
+const multer = require("multer");
 
 dotenv.config();
 const app = express();
 
 app.use(express.json());
 app.use(cors());
+
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/api/onboarding", onboardingRoutes);
+app.use("/api/upload", uploadRoutes);
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, 'uploads/');
+  },
+  filename: function (req, file, cb) {
+      cb(null, Date.now() + '-' + file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage });
 
 mongoose
-  .connect(
-    "mongodb+srv://divyanshukumar736:hvlvLJsxoNbqZVIV@cluster0.ln2mfmi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
-  )
+  .connect("mongodb+srv://divyanshukumar736:hvlvLJsxoNbqZVIV@cluster0.ln2mfmi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => {
     app.listen(6000);
     console.log("Connected to MongoDB");
