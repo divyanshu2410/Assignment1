@@ -31,7 +31,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/upload", uploadRoutes(upload));
 
 mongoose
-  .connect()
+  .connect("mongodb+srv://divyanshukumar736:hvlvLJsxoNbqZVIV@cluster0.ln2mfmi.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0")
   .then(() => {
     app.listen(6000);
     console.log("Connected to MongoDB");
