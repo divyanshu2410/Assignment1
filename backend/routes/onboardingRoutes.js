@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Onboarding = require("../models/Onboarding");
+const cors = require("cors");
+
+router.use(cors());
 
 router.post("/submit", async (req, res) => {
   try {
