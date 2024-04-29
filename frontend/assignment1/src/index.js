@@ -8,6 +8,7 @@ import Register from "./components/Auth/Register";
 import OnboardingForm from "./components/Onboarding/Onboarding";
 import UserDashboard from "./components/Dashboard/UserDashboard";
 import AdminDashboard from "./components/Dashboard/AdminDashboard";
+import ContactForm from "./components/Support/ContactForm";
 
 const router = createBrowserRouter([
 
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
   {
     path: "/adminDashboard",
     element: <AdminDashboard />
+  },
+  {
+    path:"/support",
+    element: <ContactForm />
   }
 ])
 
