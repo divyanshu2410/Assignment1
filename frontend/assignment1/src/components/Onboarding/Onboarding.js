@@ -41,15 +41,15 @@ const Onboarding = () => {
     }
   };
 
-  const sendRequest = async () => {
-    const res = await axios.post("https://assignment1-tp12.onrender.com/api/onboarding/submit", formData)
-    console.log(res.data)
-    .catch((err) => console.log(err));
-  }
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    sendRequest().then(() => history("/userDashboard"))
+    try {
+      const res = await axios.post("", formData);
+      console.log(res.data);
+      history("/userDashboard");
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
