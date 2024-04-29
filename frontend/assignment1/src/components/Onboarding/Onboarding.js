@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Onboarding.css';
 
 const Onboarding = () => {
+  const history = useNavigate();
+
   const [fullName, setFullName] = useState('');
   const [address, setAddress] = useState('');
   const [city, setCity] = useState('');
@@ -34,7 +37,6 @@ const Onboarding = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // You can handle form submission here, e.g., send data to server
     const userData = {
       fullName,
       address,
@@ -44,6 +46,8 @@ const Onboarding = () => {
       video,
     };
     console.log(userData);
+
+    history("/userDashboard");
   };
 
   return (
