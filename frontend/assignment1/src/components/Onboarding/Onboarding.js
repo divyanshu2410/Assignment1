@@ -1,98 +1,87 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
-import "./Onboarding.css";
+import React, { useState } from 'react';
+import './Onboarding.css';
 
 const Onboarding = () => {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    address: "",
-    image: null,
-    video: null,
-  });
+  const [fullName, setFullName] = useState('');
+  const [address, setAddress] = useState('');
+  const [city, setCity] = useState('');
+  const [country, setCountry] = useState('');
+  const [image, setImage] = useState(null);
+  const [video, setVideo] = useState(null);
 
-  const [imageCaptured, setImageCaptured] = useState(false);
-  const history = useNavigate();
+  const handleImageCapture = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    reader.onload = () => {
+      setImage(reader.result);
+    };
+
+    reader.readAsDataURL(file);
   };
 
-  const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData({ ...formData, image: reader.result });
-        setImageCaptured(true);
-      };
-      reader.readAsDataURL(file);
-    }
+  const handleVideoCapture = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setVideo(reader.result);
+    };
+
+    reader.readAsDataURL(file);
   };
 
-  const handleVideoUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setFormData({ ...formData, video: reader.result });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post("", formData);
-      console.log(res.data);
-      history("/userDashboard");
-    } catch (error) {
-      console.error("Error:", error);
-    }
+    // You can handle form submission here, e.g., send data to server
+    const userData = {
+      fullName,
+      address,
+      city,
+      country,
+      image,
+      video,
+    };
+    console.log(userData);
   };
 
   return (
     <div className="onboarding-container">
-      <h2 className="onboarding-heading">Form</h2>
+      <h2 className="onboarding-heading">User Onboarding Form</h2>
       <form className="onboarding-form" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Full Name"
-          name="fullName"
-          value={formData.fullName}
-          onChange={handleChange}
-          className="onboarding-input"
-          required
-        />
-        <input
-          type="text"
-          placeholder="Address"
-          name="address"
-          value={formData.address}
-          onChange={handleChange}
-          className="onboarding-input"
-          required
-        />
-        <div className="capture-container">
-          <div className="capture-buttons">
-            <label>
-              Upload Image:
-              <input type="file" accept="image/*" onChange={handleImageUpload} />
-            </label>
-          </div>
-          {imageCaptured && (
-            <div className="capture-buttons">
-              <label>
-                Upload Video:
-                <input type="file" accept="video/*" onChange={handleVideoUpload} />
-              </label>
-            </div>
-          )}
-          <button type="submit" className="onboarding-button" disabled={!imageCaptured}>
-            Complete Onboarding
-          </button>
+        <div>
+          <input type="text" className="onboarding-input" placeholder="Full Name" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
         </div>
+        <div>
+          <input type="text" className="onboarding-input" placeholder="Address" value={address} onChange={(e) => setAddress(e.target.value)} required />
+        </div>
+        <div>
+          <input type="text" className="onboarding-input" placeholder="City" value={city} onChange={(e) => setCity(e.target.value)} required />
+        </div>
+        <div>
+          <input type="text" className="onboarding-input" placeholder="Country" value={country} onChange={(e) => setCountry(e.target.value)} required />
+        </div>
+        <div className="capture-container">
+          <label htmlFor="imageInput" className="onboarding-input capture-buttons">
+            Upload Profile Image
+            <input type="file" accept="image/*" id="imageInput" onChange={handleImageCapture} />
+          </label>
+          {image && <img src={image} alt="User" className="capture-preview" />}
+        </div>
+        <div className="capture-container">
+          <label htmlFor="videoInput" className="onboarding-input capture-buttons">
+            Upload Introduction Video
+            <input type="file" accept="video/*" id="videoInput" onChange={handleVideoCapture} />
+          </label>
+          {video && (
+            <video width="320" height="240" controls className="capture-preview">
+              <source src={video} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          )}
+        </div>
+        <button type="submit" className="onboarding-button">Submit</button>
       </form>
     </div>
   );
